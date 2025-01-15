@@ -29,6 +29,8 @@ class ProtectedMiddleware
                 return redirect('/error');
             }
             }
+            return $next($request);
+
         }
     }
 
