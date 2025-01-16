@@ -11,16 +11,16 @@ class loginController extends Controller
         return view('login');
     }
 
-    public function LoginClick(Request $request) {
-        $request -> input("name");
+    // Below function not working properly
+   /*  public function LoginClick(Request $request) {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-            if ($user->Registered) {
+            if ($user->Registered == 1) {
                 return 'This is dashboard';
             }
             else{
-                return 'This is error';
+                return redirect('/error');
             }
         }
-    }
+    } */
 }

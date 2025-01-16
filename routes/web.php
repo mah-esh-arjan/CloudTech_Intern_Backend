@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\westController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\loginController;
 use App\Http\Middleware\RegisteredMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -45,3 +47,17 @@ Route::controller(loginController::class)->group(function(){
 
 
 Route::get('/testDatabase', [DatabaseController::class, 'index']);
+
+Route::resource('/blogs', BlogController::class);
+
+Route::get('/contact',[LayoutController::class, 'ContactLayout']);
+
+Route::get('/contact2', function () {
+    return view ('contact2');
+});
+
+Route::get('/card',function () {
+
+    return view ('render.CardRender');
+
+});
