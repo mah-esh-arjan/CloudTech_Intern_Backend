@@ -5,6 +5,7 @@ use App\Http\Controllers\westController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\loginController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Middleware\RegisteredMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,7 @@ Route::get('/html',function () {
 
 Route::get('/new',function () {
 
-    return view ('new');
+    return view ('/day2Blade.new');
 });
 
 // Route::get('/testnew', function(){
@@ -33,7 +34,7 @@ Route::get('/new',function () {
 // });
 Route::get('/testnew', [westController::class, 'index']);
 Route::get('/error',function() {
-    return view ('error');
+    return view ('/day2Blade.error');
 });
 
 Route::get('/dashboard',function() {
@@ -56,8 +57,15 @@ Route::get('/contact2', function () {
     return view ('contact2');
 });
 
+
 Route::get('/card',function () {
 
     return view ('render.CardRender');
 
 });
+
+Route::get('/register',[RegisterController::class, 'ViewForm']);
+
+Route::post('/register',[RegisterController::class, 'ClickSubmit']);
+
+

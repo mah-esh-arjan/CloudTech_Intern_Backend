@@ -10,7 +10,7 @@ class DatabaseController extends Controller
 {
     public function index() {
         $users = DB::table('users')->get();
-        return view('testDatabase',[
+        return view('/day2Blade.testDatabase',[
             'users' => $users
         ]);
     }

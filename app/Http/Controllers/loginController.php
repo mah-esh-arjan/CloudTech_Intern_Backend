@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class loginController extends Controller
 {
     public function LoginView() {
-        return view('login');
+        return view('/day2Blade.login');
     }
 
     // Below function not working properly
