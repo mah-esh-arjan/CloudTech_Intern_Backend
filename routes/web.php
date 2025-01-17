@@ -7,6 +7,7 @@ use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Middleware\RegisteredMiddleware;
+use App\Models\Student;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -67,5 +68,12 @@ Route::get('/card',function () {
 Route::get('/register',[RegisterController::class, 'ViewForm']);
 
 Route::post('/register',[RegisterController::class, 'ClickSubmit']);
+
+Route::get('/students', function(){
+
+    $students= Student::all();
+    echo"<pre>";
+    print_r($students->toArray());
+});
 
 
