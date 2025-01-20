@@ -16,6 +16,7 @@ class RegisterController extends Controller
             'password' => 'required|min:6',
             'age' => 'required|integer|min:18'
         ],[
+            'name.required' => 'Please put your name',
             'password.min' => 'Sorry, your password must be more than 6 characters.',
             'age.integer' => 'Age must be a number.',
             'age.min' => 'You must be over 18 to register.'
