@@ -6,6 +6,7 @@ use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\StudentController;
 use App\Http\Middleware\RegisteredMiddleware;
 use App\Models\Student;
 use Illuminate\Support\Facades\Route;
@@ -47,7 +48,6 @@ Route::controller(loginController::class)->group(function(){
     Route::post('/login','LoginClick');
 });
 
-
 Route::get('/testDatabase', [DatabaseController::class, 'index']);
 
 Route::resource('/blogs', BlogController::class);
@@ -65,15 +65,27 @@ Route::get('/card',function () {
 
 });
 
-Route::get('/register',[RegisterController::class, 'ViewForm']);
 
-Route::post('/register',[RegisterController::class, 'ClickSubmit']);
+Route::controller(loginController::class)->group(function(){
+    Route::get('/login','LoginView');
+    Route::post('/login','LoginClick');
+});
 
-Route::get('/students', function(){
+Route::controller(RegisterController::class)->group(function(){
+    Route::get('/register','ViewForm');
+    Route::post('/register','ClickSubmit');
 
-    $students= Student::all();
-    echo"<pre>";
-    print_r($students->toArray());
 });
 
 
+Route::get('/student-register', [StudentController::class,'ViewStudentForm']);
+
+Route::post('/student-register',[StudentController::class,'registerStudent'])->name('registerStudent');
+
+Route::get('/student-list',[StudentController::class,'viewStudents']);
+
+Route::get('/edit_student/{student_id}',[StudentController::class,'edit_student']);
+
+Route::post('/update_data/{student_id}',[StudentController::class,'update_data']);
+
+Route::get('/delete_student/{student_id}',[StudentController::class,'delete_student']);
