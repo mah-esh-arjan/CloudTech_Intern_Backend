@@ -9,7 +9,7 @@
 
     @csrf
     <div class="mb-20 ">
-        <h1 class="text-2xl font-medium text-gray-900">Register Form</h1>
+        <h1 class="text-2xl font-medium text-gray-900">Register Form With Form validation</h1>
     </div>
     <div class="mb-4">
         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
