@@ -27,7 +27,7 @@ class StudentController extends Controller
 
         $path = $request->file('file')->store('public');
 
-        return $path;
+        // return $path;
 
         Student::create([
             'name' => $request->name,
