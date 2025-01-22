@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Profile;
 
 class Student extends Model
 {
@@ -18,4 +19,9 @@ class Student extends Model
         'gender',
         'course'
     ];
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class, 'student_id');
+    }
 }

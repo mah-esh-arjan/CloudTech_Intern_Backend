@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\westController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\loginController;
@@ -29,12 +28,6 @@ Route::get('/new',function () {
     return view ('/day2Blade.new');
 });
 
-// Route::get('/testnew', function(){
-
-//     return view ('testNew');
-    
-// });
-Route::get('/testnew', [westController::class, 'index']);
 Route::get('/error',function() {
     return view ('/day2Blade.error');
 });
@@ -89,3 +82,10 @@ Route::get('/edit_student/{student_id}',[StudentController::class,'edit_student'
 Route::post('/update_data/{student_id}',[StudentController::class,'update_data']);
 
 Route::get('/delete_student/{student_id}',[StudentController::class,'delete_student']);
+
+Route::get('/student/{student_id}/profile', function ($student_id) {
+    $student = Student::findOrFail($student_id); 
+    $profile = $student->profile; 
+
+    dd($profile);
+});
