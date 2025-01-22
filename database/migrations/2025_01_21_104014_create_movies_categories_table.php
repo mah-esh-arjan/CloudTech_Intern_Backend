@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('movies_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('bio')->nullable();
-            $table->unsignedBigInteger('student_id')->unique();
-            $table->timestamps();
-
-            $table->foreign('student_id')->references('student_id')->on('student')->onDelete('cascade');
+            $table->foreignId('movie_id')->constrained()->onDelete('cascade'); 
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profile');
+        Schema::dropIfExists('movies_categories');
     }
 };
