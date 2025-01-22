@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Profile;
+use App\Models\Subject;
+use App\Models\Image;
 
 class Student extends Model
 {
@@ -24,4 +26,13 @@ class Student extends Model
     {
         return $this->hasOne(Profile::class, 'student_id');
     }
+
+    public function subject(){
+        return $this->hasMany(Subject::class, 'student_id');
+    }
+
+    public function image(){
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
 }
