@@ -73,17 +73,16 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 
-Route::get('/student-register', [StudentController::class, 'ViewStudentForm']);
+Route::controller(StudentController::class)->group(function (){
+    Route::get('/student-register', 'ViewStudentForm');
+    Route::post('/student-register', 'registerStudent')->name('registerStudent');
+    Route::get('/student-list', 'viewStudents');
+    Route::get('/edit_student/{student_id}', 'edit_student');
+    Route::post('/update_data/{student_id}', 'update_data');
+    Route::get('/delete_student/{student_id}', 'delete_student');
 
-Route::post('/student-register', [StudentController::class, 'registerStudent'])->name('registerStudent');
+});
 
-Route::get('/student-list', [StudentController::class, 'viewStudents']);
-
-Route::get('/edit_student/{student_id}', [StudentController::class, 'edit_student']);
-
-Route::post('/update_data/{student_id}', [StudentController::class, 'update_data']);
-
-Route::get('/delete_student/{student_id}', [StudentController::class, 'delete_student']);
 
 Route::get('/student/{student_id}/profile', function ($student_id) {
     $student = Student::findOrFail($student_id);
