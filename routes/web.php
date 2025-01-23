@@ -5,8 +5,10 @@ use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\RoleLoginController;
 use App\Http\Controllers\StudentController;
 use App\Http\Middleware\RegisteredMiddleware;
+use App\Http\Middleware\RoleMiddleware;
 use App\Models\Student;
 use App\Models\Movie;
 use App\Models\Category;
@@ -117,3 +119,16 @@ Route::get('/test-image', function () {
 
     dd($student->image);
 });
+
+Route::get('/role-login', [RoleLoginController::class, 'showRoleLoginForm']);
+
+Route::post('/role-login', [RoleLoginController::class, 'roleLogin']);
+
+
+Route::get('/admin-dashboard', [RoleLoginController::class, 'viewAdmin'])->middleware('can:isAdmin');
+
+Route::get('/client-dashboard', [RoleLoginController::class, 'viewClient'])->middleware('can:isClient');
+
+Route::get('/reader-dashboard', [RoleLoginController::class, 'viewReader'])->middleware('can:isReader');
+
+

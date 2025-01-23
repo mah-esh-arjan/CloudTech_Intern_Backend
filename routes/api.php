@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DummyAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,11 +17,6 @@ Route::post("createMovie", [DummyAPIController::class, 'postData']);
 
 Route::get('/get-movie/{id}', [DummyAPIController::class, 'getMovie']);
 
-Route::post('/tokens/create', function (Request $request) {
-    $token = $request->user()->createToken($request->token_name);
-
-    return ['token' => $token->plainTextToken];
-});
 
 Route::post('/test-token/create', function () {
     $user = User::find(1);
@@ -28,3 +24,7 @@ Route::post('/test-token/create', function () {
 
     return response()->json(['token' => $token]);
 });
+
+
+Route::post('/login',[AuthController::class,'login']);
+Route::middleware('auth:sanctum')->get('user', [AuthController::class,'getUser']);
