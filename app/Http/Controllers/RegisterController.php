@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
-    public function ViewForm() {
+    public function viewForm() {
         return view('/FormValidation.RegisterForm');
     }
 
-    public function ClickSubmit(Request $request) {
+    public function clickSubmit(Request $request) {
         $validated = $request->validate([
             'name' => 'required',
             'password' => 'required|min:6',

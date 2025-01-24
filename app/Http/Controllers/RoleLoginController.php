@@ -31,6 +31,7 @@ class RoleLoginController extends Controller
 
         Auth::login($customer);
         
+        
         return redirect('/panel');
     }
 
@@ -46,7 +47,7 @@ class RoleLoginController extends Controller
             return view('auth.panel', ['role'=> 'reader']);
         }
         
-        abort(403, 'Unauthorized action.');
+        return response()->json(['message' => 'Unauthorized action.']);
 
     }
 }

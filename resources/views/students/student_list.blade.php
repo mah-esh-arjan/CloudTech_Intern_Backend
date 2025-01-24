@@ -36,10 +36,10 @@
         <td> {{$stu->gender}} </td>
         <td> {{$stu->course}} </td>
         <td>
-            <a href="edit_student/{{$stu->student_id}}"><button class=" btn btn-primary">Edit </button> </a>
+            <a href="edit-student/{{$stu->student_id}}"><button class=" btn btn-primary">Edit </button> </a>
         </td>
         <td>
-            <a href="delete_student/{{$stu->student_id}}"><button class=" btn btn-danger">Delete</button> </a>
+            <a href="delete-student/{{$stu->student_id}}"><button class=" btn btn-danger">Delete</button> </a>
         </td>
     </tr>
     @endforeach

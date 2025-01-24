@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-class loginController extends Controller
+class LoginController extends Controller
 {
     public function LoginView() {
         return view('/day2Blade.login');

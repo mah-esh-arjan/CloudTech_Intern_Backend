@@ -70,18 +70,18 @@ Route::controller(loginController::class)->group(function () {
 });
 
 Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register', 'ViewForm');
-    Route::post('/register', 'ClickSubmit');
+    Route::get('/register', 'viewForm');
+    Route::post('/register', 'clickSubmit');
 });
 
 
 Route::controller(StudentController::class)->group(function (){
-    Route::get('/student-register', 'ViewStudentForm');
+    Route::get('/student-register', 'viewStudentForm');
     Route::post('/student-register', 'registerStudent')->name('registerStudent');
     Route::get('/student-list', 'viewStudents');
-    Route::get('/edit_student/{student_id}', 'edit_student');
-    Route::post('/update_data/{student_id}', 'update_data');
-    Route::get('/delete_student/{student_id}', 'delete_student');
+    Route::get('/edit-student/{student_id}', 'editStudent');
+    Route::post('/update-student/{student_id}', 'updateStudent');
+    Route::get('/delete-student/{student_id}', 'deleteStudent');
 
 });
 
@@ -123,7 +123,6 @@ Route::get('/test-image', function () {
 Route::get('/role-login', [RoleLoginController::class, 'showRoleLoginForm']);
 
 Route::post('/role-login', [RoleLoginController::class, 'roleLogin']);
-
 
 Route::get('/panel', [RoleLoginController::class, 'viewPanel'])->middleware('auth');
 
