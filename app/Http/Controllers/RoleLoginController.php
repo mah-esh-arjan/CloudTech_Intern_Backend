@@ -30,29 +30,23 @@ class RoleLoginController extends Controller
         }
 
         Auth::login($customer);
-
-        if (Gate::allows('isAdmin')) {
-            return redirect('/admin-dashboard');
-
-        } elseif (Gate::allows('isClient')) {
-            return redirect('/client-dashboard');
-            
-        } elseif (Gate::allows('isReader'))
-            return redirect('/reader-dashboard');
+        
+        return redirect('/panel');
     }
 
-    public function viewAdmin()
+    public function viewPanel()
     {
-        return view('/auth.admin');
-    }
+        if (Gate::allows('isRole','admin')){
+            return view('auth.panel', ['role'=> 'admin']);
+        }
+        elseif (Gate::allows('isRole','client')){
+            return view('auth.panel', ['role'=> 'client']);
+        }
+        elseif (Gate::allows('isRole','reader')){
+            return view('auth.panel', ['role'=> 'reader']);
+        }
+        
+        abort(403, 'Unauthorized action.');
 
-    public function viewClient()
-    {
-        return view('/auth.client');
-    }
-
-    public function viewReader()
-    {
-        return view('/auth.reader');
     }
 }

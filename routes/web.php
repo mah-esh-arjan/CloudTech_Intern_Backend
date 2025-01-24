@@ -125,10 +125,7 @@ Route::get('/role-login', [RoleLoginController::class, 'showRoleLoginForm']);
 Route::post('/role-login', [RoleLoginController::class, 'roleLogin']);
 
 
-Route::get('/admin-dashboard', [RoleLoginController::class, 'viewAdmin'])->middleware('can:isAdmin');
+Route::get('/panel', [RoleLoginController::class, 'viewPanel'])->middleware('auth');
 
-Route::get('/client-dashboard', [RoleLoginController::class, 'viewClient'])->middleware('can:isClient');
-
-Route::get('/reader-dashboard', [RoleLoginController::class, 'viewReader'])->middleware('can:isReader');
 
 
