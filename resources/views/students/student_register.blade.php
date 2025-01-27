@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 </head>
 
-<form method="POST" action="{{route('registerStudent')}}" enctype="multipart/form-data">
-    @csrf
 
+<form method="POST" action="/student-register" enctype="multipart/form-data">
+    @csrf
     <section class="vh-100" style="background-color: #2779e2;">
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -26,6 +26,9 @@
                                     <input type="text" name="name" placeholder="Name" class="form-control form-control-lg" />
                                 </div>
                             </div>
+                            @error('name')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             <hr class="mx-n3">
 
                             <div class="row align-items-center pt-4 pb-3">
@@ -49,6 +52,10 @@
                                     <input type="number" name="age" placeholder="Age" class="form-control form-control-lg" />
                                 </div>
                             </div>
+
+                            @error('age')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
 
                             <hr class="mx-n3">
 
@@ -95,7 +102,7 @@
                                 </div>
                                 <div class="col-md-9 pe-5">
 
-                                    <input class="form-control form-control-lg" id="formFileLg" type="file" name="file"/>
+                                    <input class="form-control form-control-lg" id="formFileLg" type="file" name="file" />
                                     <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
                                         size 50 MB</div>
 
