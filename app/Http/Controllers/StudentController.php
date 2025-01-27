@@ -66,11 +66,15 @@ class StudentController extends Controller
             return 'Data was not found';
         }
 
+        $newImageName = time() . '-' . $request->name . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $newImageName);
+
         $data->update([
             'name' => $request->name,
             'age' => $request->age,
             'gender' => $request->gender,
-            'course' => $request->course
+            'course' => $request->course,
+            'image_path' => $newImageName
         ]);
 
         return redirect('student-list');
