@@ -17,19 +17,21 @@ class StudentController extends Controller
 
     public function registerStudent(RegisterStudentRequest $request)
     {
-        
+
         $validatedData = $request->validated();
 
-        // $path = $request->file('file')->store('public');
+        // dd($validatedData);
 
-        // return $path;
+        $newImageName = time() . '-' . $request->name . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $newImageName);
 
         Student::create([
             'name' => $validatedData['name'],
             'password' => $validatedData['password'],
             'age' => $validatedData['age'],
             'gender' =>  $validatedData['gender'],
-            'course' =>  $validatedData['course']
+            'course' =>  $validatedData['course'],
+            'image_path' => $newImageName
 
         ]);
 

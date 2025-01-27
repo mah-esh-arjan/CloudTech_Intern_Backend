@@ -22,6 +22,7 @@
     <tr>
         <td>Student_id</td>
         <td>Name</td>
+        <td>Image</td>
         <td>Age </td>
         <td>Gender</td>
         <td>Course</td>
@@ -30,15 +31,16 @@
     @foreach ($students as $stu)
 
     <tr>
-        <td> {{$stu->student_id}} </td>
-        <td> {{$stu->name}} </td>
-        <td> {{$stu->age}} </td>
-        <td> {{$stu->gender}} </td>
-        <td> {{$stu->course}} </td>
-        <td>
+        <td class="col-lg-2"> {{$stu->student_id}} </td>
+        <td class="col-lg-2"> <img src="{{ asset('images/'. $stu->image_path)}}" alt="not found" class="mw-100 mh-100"> </td>
+        <td class="col-lg-2"> {{$stu->name}} </td>
+        <td class="col-lg-2"> {{$stu->age}} </td>
+        <td class="col-lg-2"> {{$stu->gender}} </td>
+        <td class="col-lg-2"> {{$stu->course}} </td>
+        <td class="col-lg-2">
             <a href="edit-student/{{$stu->student_id}}"><button class=" btn btn-primary">Edit </button> </a>
         </td>
-        <td>
+        <td class="col-lg-2">
             <a href="delete-student/{{$stu->student_id}}"><button class=" btn btn-danger">Delete</button> </a>
         </td>
     </tr>

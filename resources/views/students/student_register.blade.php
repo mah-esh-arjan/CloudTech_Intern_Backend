@@ -102,7 +102,7 @@
                                 </div>
                                 <div class="col-md-9 pe-5">
 
-                                    <input class="form-control form-control-lg" id="formFileLg" type="file" name="file" />
+                                    <input class="form-control form-control-lg" id="formFileLg" type="file" name="image" />
                                     <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
                                         size 50 MB</div>
 

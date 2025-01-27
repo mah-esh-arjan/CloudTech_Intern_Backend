@@ -19,7 +19,8 @@ class Student extends Model
         'password',
         'age',
         'gender',
-        'course'
+        'course',
+        'image_path'
     ];
 
     public function profile()
