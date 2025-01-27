@@ -108,6 +108,9 @@
 
                                 </div>
                             </div>
+                            @error('image')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
 
                             <hr class="mx-n3">
 

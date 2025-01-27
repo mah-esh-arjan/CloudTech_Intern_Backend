@@ -21,13 +21,20 @@ class RegisterAPIController extends Controller
      */
     public function store(Request $request)
     {
-        User::create([
+      $email = $request->email;
+
+        if(User::where('email',$email)->exists()){
+            return jsonResponse($email,'Email already exists',409);
+
+        }
+
+       $user = User::create([
             "name" => $request->name,
             "email" => $request->email,
             "password" => $request->password
         ]);
 
-        return response()->json(["message" => "User Registered Sucessfully"]);
+        return jsonResponse($user,'Creation successful', 201 );
     }
 
     /**
