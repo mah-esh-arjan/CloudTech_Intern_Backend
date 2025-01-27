@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\MockObject\Builder\Stub;
+use App\Http\Requests\RegisterStudentRequest;
+
 
 class StudentController extends Controller
 {
@@ -13,28 +15,21 @@ class StudentController extends Controller
         return view('/students.student_register');
     }
 
-    public function registerStudent(Request $request)
+    public function registerStudent(RegisterStudentRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'password' => 'required|min:6',
-            'age' => 'required|integer'
-        ], [
-            'name.required' => 'Please put your name',
-            'password.min' => 'Sorry, your password must be more than 6 characters.',
-            'age.integer' => 'Age must be a number.',
-        ]);
+        
+        $validatedData = $request->validated();
 
         // $path = $request->file('file')->store('public');
 
         // return $path;
 
         Student::create([
-            'name' => $request->name,
-            'password' => $request->password,
-            'age' => $request->age,
-            'gender' => $request->gender,
-            'course' => $request->course
+            'name' => $validatedData['name'],
+            'password' => $validatedData['password'],
+            'age' => $validatedData['age'],
+            'gender' =>  $validatedData['gender'],
+            'course' =>  $validatedData['course']
 
         ]);
 

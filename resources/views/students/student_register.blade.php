@@ -26,6 +26,9 @@
                                     <input type="text" name="name" placeholder="Name" class="form-control form-control-lg" />
                                 </div>
                             </div>
+                            @error('name')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             <hr class="mx-n3">
 
                             <div class="row align-items-center pt-4 pb-3">
@@ -49,6 +52,10 @@
                                     <input type="number" name="age" placeholder="Age" class="form-control form-control-lg" />
                                 </div>
                             </div>
+
+                            @error('age')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
 
                             <hr class="mx-n3">
 
