@@ -7,28 +7,29 @@
         <h1> Edit Form</h1>
 
         <div class="form-group">
-            @if($data->image_path == '')
-            <div> 
-                <div class="row align-items-center py-3">
-                    <div class="col-md-3 ps-5">
-                        <h6 class="mb-0">Upload Image</h6>
-                    </div>
-                    <div class="col-md-9 pe-5">
+            @if ($data->image_path == '')
+                <div>
+                    <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+                            <h6 class="mb-0">Upload Image</h6>
+                        </div>
+                        <div class="col-md-9 pe-5">
 
-                        <input class="form-control form-control-lg" id="formFileLg" type="file" name="image" />
+                            <input class="form-control form-control-lg" id="formFileLg" type="file" name="image" />
 
+                        </div>
                     </div>
+                    @error('image')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
-                @error('image')
-                <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
             @else
+                <label class="fw-bold">Profile Picture</label>
+                <div> <img src="{{ asset('images/' . $data->image_path) }}" alt="not found" class="w-25 h-20"> </div>
 
-            <label class="fw-bold">Profile Picture</label>
-            <div> <img src="{{ asset('images/' . $data->image_path) }}" alt="not found" class="w-25 h-20"> </div>
-            
+                <h6 class="mb-0">Upload Image</h6>
+
+                <input id="formFileLg" type="file" name="image" />
             @endif
         </div>
 
@@ -56,7 +57,7 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gender" id="gridRadios2" value="M" 
+                    <input class="form-check-input" type="radio" name="gender" id="gridRadios2" value="M"
                         {{ old('gender', $data->gender) == 'M' ? 'checked' : '' }}>
                     <label class="form-check-label" for="gridRadios2">
                         Male
