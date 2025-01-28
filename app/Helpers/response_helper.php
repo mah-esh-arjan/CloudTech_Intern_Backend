@@ -9,6 +9,6 @@ if (!function_exists('jsonResponse')) {
             'status' => $status,
             'message' => $message,
             'data' => $data,
-        ], $status);
+        ]);
     }
 }

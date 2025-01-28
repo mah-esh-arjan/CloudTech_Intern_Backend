@@ -26,9 +26,9 @@ class RegisterStudentRequest extends FormRequest
             'name' => 'required',
             'password' => 'required|min:6',
             'age' => 'required|integer',
-            'gender' => 'required',
+            'gender' => 'required|in:M,F,O',
             'course' => 'required',
-            'image' => 'required|mimes:png,jpg'
+            'image' => 'mimes:png,jpg'
         ];
     }
 
@@ -38,7 +38,8 @@ class RegisterStudentRequest extends FormRequest
             'name.required' => 'Sorry, your name please',
             'password.min' => 'Sorry, your password must be more than 6 characters.',
             'age.integer' => 'Age must be a number.',
-            'image.mimes' => 'Sorry only png and jpg images are supported'
+            'image.mimes' => 'Sorry only png and jpg images are supported',
+            'gender.in' => 'Please select your gender'
         ];
     }
 

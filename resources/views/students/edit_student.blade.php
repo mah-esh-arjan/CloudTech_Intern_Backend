@@ -28,7 +28,7 @@
                 <div> <img src="{{ asset('images/' . $data->image_path) }}" alt="not found" class="w-25 h-20"> </div>
 
                 <h6 class="mb-0">Upload Image</h6>
-
+                
                 <input id="formFileLg" type="file" name="image" />
             @endif
         </div>
