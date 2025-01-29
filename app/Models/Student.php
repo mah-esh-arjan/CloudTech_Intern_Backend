@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Profile;
 use App\Models\Subject;
 use App\Models\Image;
+use Laravel\Sanctum\HasApiTokens;
+
 
 class Student extends Model
 {
+    use HasApiTokens;
     use HasFactory;
     protected $table = "student";
     protected $primaryKey = "student_id";

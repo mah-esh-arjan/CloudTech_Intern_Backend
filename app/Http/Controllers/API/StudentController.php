@@ -12,6 +12,28 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function loginStudent(Request $request){
+
+        $student = Student::where('name',$request->name)->first();
+
+
+        if(!$student){
+            return jsonResponse(null,'No Stundent Was Found',404);
+        }
+
+        if($student->password !== $request->password){
+            return jsonResponse(null,'Password does not match',401);
+        }
+
+        $token = $student->createToken('Student')->plainTextToken;
+
+        return jsonResponse($token,'Token has been created successfully',201);
+
+    }
+
+
+
     public function getStudents()
     {
 
