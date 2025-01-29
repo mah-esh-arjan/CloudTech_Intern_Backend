@@ -28,6 +28,16 @@
 
             <label class="fw-bold">Profile Picture</label>
             <div> <img src="{{ asset('images/' . $data->image_path) }}" alt="not found" class="w-25 h-20"> </div>
+            <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+                    <h6 class="mb-0">Upload Image</h6>
+                </div>
+                <div class="col-md-9 pe-5">
+
+                    <input class="form-control form-control-lg" id="formFileLg" type="file" name="image" />
+
+                </div>
+            </div>
             
             @endif
         </div>

@@ -20,7 +20,7 @@ class Student extends Model
         'age',
         'gender',
         'course',
-        'image'
+        'image_path'
     ];
 
     public function profile()

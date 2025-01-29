@@ -33,7 +33,7 @@ class StudentController extends Controller
             'age' => $validatedData['age'],
             'gender' =>  $validatedData['gender'],
             'course' =>  $validatedData['course'],
-            'image' => $newImageName
+            'image_path' => $newImageName
 
         ]);
 
@@ -80,7 +80,7 @@ class StudentController extends Controller
             unlink($filePath);
         }
 
-        $newImageName = time() . '-' . $request->name . '.' . $request->image->extension();
+        $newImageName = time() . '-' . $request->name;
         $request->image->move(public_path('images'), $newImageName);
 
         $data->update([
