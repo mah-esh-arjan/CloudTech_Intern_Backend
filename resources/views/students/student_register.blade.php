@@ -8,6 +8,7 @@
 
 <form method="POST" action="/student-register" enctype="multipart/form-data">
     @csrf
+    @method('PUT')
     <section class="vh-100" style="background-color: #2779e2;">
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -108,6 +109,9 @@
 
                                 </div>
                             </div>
+                            @error('image_path')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
 
                             <hr class="mx-n3">
 

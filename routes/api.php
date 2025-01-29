@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\RegisterAPIController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DummyAPIController;
+use App\Http\Controllers\API\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -23,3 +24,9 @@ Route::post('/login',[AuthController::class,'login']);
 Route::middleware('auth:sanctum')->get('user', [AuthController::class,'getUser']);
 
 Route::post('/user-register',[RegisterAPIController::class, 'store']);
+
+
+Route::get('/students-list',[StudentController::class, 'getStudents']);
+Route::post('/student-register', [StudentController::class, 'registerStudent']);
+Route::put('/student-update/{student_id}', [StudentController::class, 'updateStudent']);
+Route::delete('/student-delete/{student_id}', [StudentController::class, 'deleteStudent']);

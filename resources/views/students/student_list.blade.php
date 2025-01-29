@@ -32,8 +32,8 @@
 
     <tr>
         <td class="col-lg-2"> {{$stu->student_id}} </td>
-        <td class="col-lg-2"> <img src="{{ asset('images/'. $stu->image_path)}}" alt="not found" class="mw-100 mh-100"> </td>
         <td class="col-lg-2"> {{$stu->name}} </td>
+        <td class="col-lg-2"> <img src="{{ asset('images/'. $stu->image_path)}}" alt="not found" class="mw-100 mh-100"> </td>
         <td class="col-lg-2"> {{$stu->age}} </td>
         <td class="col-lg-2"> {{$stu->gender}} </td>
         <td class="col-lg-2"> {{$stu->course}} </td>

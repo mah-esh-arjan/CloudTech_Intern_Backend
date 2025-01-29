@@ -104,14 +104,11 @@ Route::get('/test-movie', function () {
 Route::get('/test-image', function () {
 
     $student = Student::find(1); 
-
-
     $image = new Image([
         'url' => 'https://fastly.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U',
         'imageable_id' => 1,
         'imageable_type' => Student::class,
     ]);
-
 
     $image->save();
 

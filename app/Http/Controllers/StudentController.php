@@ -6,10 +6,12 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\MockObject\Builder\Stub;
 use App\Http\Requests\RegisterStudentRequest;
-
+use App\Traits\Create;
 
 class StudentController extends Controller
 {
+    use Create;
+
     public function viewStudentForm()
     {
         return view('/students.student_register');
@@ -40,7 +42,8 @@ class StudentController extends Controller
 
     public function viewStudents()
     {
-        $students = Student::all();
+        
+        $students = $this->getAll(Student::class);
         return view('/students.student_list', ['students' => $students]);
     }
 
@@ -66,11 +69,26 @@ class StudentController extends Controller
             return 'Data was not found';
         }
 
+        // delete
+        $fileName = $data->image_path;
+
+        $filePath = public_path('images/' . $fileName);
+
+        // dd($filePath);
+
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+
+        $newImageName = time() . '-' . $request->name;
+        $request->image->move(public_path('images'), $newImageName);
+
         $data->update([
             'name' => $request->name,
             'age' => $request->age,
             'gender' => $request->gender,
-            'course' => $request->course
+            'course' => $request->course,
+            'image_path' => $newImageName
         ]);
 
         return redirect('student-list');
