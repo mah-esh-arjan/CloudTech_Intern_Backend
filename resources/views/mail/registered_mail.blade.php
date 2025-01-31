@@ -1,1 +1,1 @@
-<h1> Congartulations you have successfully been Registered into the System </h1>
+<h1> Congratulations {{$student->name}} you have successfully been Registered into the System </h1>

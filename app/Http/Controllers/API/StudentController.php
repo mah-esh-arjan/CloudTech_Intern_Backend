@@ -17,7 +17,6 @@ class StudentController extends Controller
 
         $student = Student::where('name',$request->name)->first();
 
-
         if(!$student){
             return jsonResponse(null,'No Stundent Was Found',404);
         }

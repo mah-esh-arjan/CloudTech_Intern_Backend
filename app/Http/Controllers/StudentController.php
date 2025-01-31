@@ -6,6 +6,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\MockObject\Builder\Stub;
 use App\Http\Requests\RegisterStudentRequest;
+use App\Jobs\SendRegisterEmail;
 use App\Mail\RegisterSuccess;
 use App\Traits\Create;
 use Illuminate\Support\Facades\Mail;
@@ -26,29 +27,29 @@ class StudentController extends Controller
 
         // dd($validatedData);
 
-        $newImageName = time() . '-' . $request->name . '.' . $request->image->extension();
-        $request->image->move(public_path('images'), $newImageName);
+        if ($request->image) {
+            $newImageName = time() . '-' . $request->name . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $newImageName);
+        }
 
-        Student::create([
+        $student = Student::create([
             'name' => $validatedData['name'],
             'password' => $validatedData['password'],
             'age' => $validatedData['age'],
             'gender' =>  $validatedData['gender'],
             'course' =>  $validatedData['course'],
-            'image_path' => $newImageName
+            'image_path' => $newImageName ?? null
 
         ]);
-        
-        Mail::to('mah.dot98@gmail.com')->send(
-            new RegisterSuccess()
-        );
+
+        SendRegisterEmail::dispatch($student);
 
         return redirect('student-list');
     }
 
     public function viewStudents()
     {
-        
+
         $students = $this->getAll(Student::class);
         return view('/students.student_list', ['students' => $students]);
     }
