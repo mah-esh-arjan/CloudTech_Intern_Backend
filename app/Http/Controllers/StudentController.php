@@ -6,7 +6,9 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\MockObject\Builder\Stub;
 use App\Http\Requests\RegisterStudentRequest;
+use App\Mail\RegisterSuccess;
 use App\Traits\Create;
+use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
@@ -36,6 +38,10 @@ class StudentController extends Controller
             'image_path' => $newImageName
 
         ]);
+        
+        Mail::to('mah.dot98@gmail.com')->send(
+            new RegisterSuccess()
+        );
 
         return redirect('student-list');
     }
