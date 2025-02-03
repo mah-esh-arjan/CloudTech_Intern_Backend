@@ -9,11 +9,12 @@ use App\Http\Controllers\RoleLoginController;
 use App\Http\Controllers\StudentController;
 use App\Http\Middleware\RegisteredMiddleware;
 use App\Http\Middleware\RoleMiddleware;
+use App\Mail\RegisterSuccess;
 use App\Models\Student;
 use App\Models\Movie;
 use App\Models\Category;
 use App\Models\Image;
-
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -57,12 +58,10 @@ Route::get('/contact2', function () {
     return view('contact2');
 });
 
-
 Route::get('/card', function () {
 
     return view('render.CardRender');
 });
-
 
 Route::controller(loginController::class)->group(function () {
     Route::get('/login', 'LoginView');
@@ -75,14 +74,13 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 
-Route::controller(StudentController::class)->group(function (){
+Route::controller(StudentController::class)->group(function () {
     Route::get('/student-register', 'viewStudentForm');
     Route::post('/student-register', 'registerStudent')->name('registerStudent');
     Route::get('/student-list', 'viewStudents');
     Route::get('/edit-student/{student_id}', 'editStudent');
     Route::post('/update-student/{student_id}', 'updateStudent');
     Route::get('/delete-student/{student_id}', 'deleteStudent');
-
 });
 
 
@@ -103,7 +101,7 @@ Route::get('/test-movie', function () {
 
 Route::get('/test-image', function () {
 
-    $student = Student::find(1); 
+    $student = Student::find(1);
     $image = new Image([
         'url' => 'https://fastly.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U',
         'imageable_id' => 1,
@@ -122,6 +120,3 @@ Route::get('/role-login', [RoleLoginController::class, 'showRoleLoginForm']);
 Route::post('/role-login', [RoleLoginController::class, 'roleLogin']);
 
 Route::get('/panel', [RoleLoginController::class, 'viewPanel'])->middleware('auth');
-
-
-

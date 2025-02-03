@@ -27,7 +27,9 @@ Route::post('/user-register', [RegisterAPIController::class, 'store']);
 
 
 Route::post('/student-login', [StudentController::class, 'loginStudent']);
-Route::middleware('auth:sanctum')->get('/students-list', [StudentController::class, 'getStudents']);
-Route::post('/student-register', [StudentController::class, 'registerStudent']);
-Route::put('/student-update/{student_id}', [StudentController::class, 'updateStudent']);
-Route::delete('/student-delete/{student_id}', [StudentController::class, 'deleteStudent']);
+Route::middleware('auth:sanctum')->controller(StudentController::class)->group(function () {
+    Route::get('/students-list', 'getStudents');
+    Route::post('/student-register', 'registerStudent');
+    Route::put('/student-update/{student_id}', 'updateStudent');
+    Route::delete('/student-delete/{student_id}', 'deleteStudent');
+});
