@@ -28,7 +28,7 @@ class RegisterStudentRequest extends FormRequest
             'age' => 'required|integer',
             'gender' => 'required|in:M,F,O',
             'course' => 'required',
-            'image' => 'mimes:png,jpg'
+            'image' => 'nullable|mimes:png,jpg'
         ];
     }
 

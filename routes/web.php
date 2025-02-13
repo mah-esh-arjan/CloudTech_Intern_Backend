@@ -7,14 +7,9 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RoleLoginController;
 use App\Http\Controllers\StudentController;
-use App\Http\Middleware\RegisteredMiddleware;
-use App\Http\Middleware\RoleMiddleware;
-use App\Mail\RegisterSuccess;
 use App\Models\Student;
 use App\Models\Movie;
-use App\Models\Category;
 use App\Models\Image;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
