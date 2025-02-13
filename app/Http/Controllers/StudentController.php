@@ -79,14 +79,15 @@ class StudentController extends Controller
         // delete
         $fileName = $data->image_path;
 
-        $filePath = public_path('images/' . $fileName);
+        if ($fileName != null) {
+            $filePath = public_path('images/' . $fileName);
 
-        // dd($filePath);
+            // dd($filePath);
 
-        if (file_exists($filePath)) {
-            unlink($filePath);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
         }
-
         $newImageName = time() . '-' . $request->name;
         $request->image->move(public_path('images'), $newImageName);
 

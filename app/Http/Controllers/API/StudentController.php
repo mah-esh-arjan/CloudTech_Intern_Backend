@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterStudentRequest;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
@@ -13,22 +14,22 @@ class StudentController extends Controller
      * Display a listing of the resource.
      */
 
-    public function loginStudent(Request $request){
+    public function loginStudent(Request $request)
+    {
 
-        $student = Student::where('name',$request->name)->first();
+        $student = Student::where('name', $request->name)->first();
 
-        if(!$student){
-            return jsonResponse(null,'No Stundent Was Found',404);
+        if (!$student) {
+            return jsonResponse(null, 'No Stundent Was Found', 404);
         }
 
-        if($student->password !== $request->password){
-            return jsonResponse(null,'Password does not match',401);
+        if ($student->password !== $request->password) {
+            return jsonResponse(null, 'Password does not match', 401);
         }
 
         $token = $student->createToken('Student')->plainTextToken;
 
-        return jsonResponse($token,'Token has been created successfully',201);
-
+        return jsonResponse($token, 'Token has been created successfully', 201);
     }
 
 
@@ -50,19 +51,26 @@ class StudentController extends Controller
      */
     public function registerStudent(RegisterStudentRequest $request)
     {
+        $name = $request->name;
+        $old_name = Student::where('name', $name)->first();
+        if ($old_name) {
+            return jsonResponse($old_name, 'student already exists', 409);
+        }
 
         $validatedData = $request->validated();
 
-        $newImageName = time() . '-' . $request->name . '.' . $request->image->extension();
-        $request->image->move(public_path('images'), $newImageName);
 
+        if ($request->image) {
+            $newImageName = time() . '-' . $request->name . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $newImageName);
+        }
         $data =  Student::create([
             'name' => $validatedData['name'],
             'password' => $validatedData['password'],
             'age' => $validatedData['age'],
             'gender' => $validatedData['gender'],
             'course' => $validatedData['course'],
-            'image_path' => $newImageName
+            'image_path' => $newImageName ?? null
 
         ]);
 
@@ -72,9 +80,14 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function showStudent(Request $request, $student_id)
     {
-        //
+        $data = Student::find($student_id);
+
+        if (!$data) {
+            return jsonResponse(null, 'Student was not found', 404);
+        }
+        return jsonResponse($data, 'Student was found', 200);
     }
 
     /**
@@ -83,11 +96,10 @@ class StudentController extends Controller
     public function updateStudent(Request $request, $student_id)
     {
         $data = Student::find($student_id);
-    
+
         if (!$data) {
-            return response()->json(['error' => 'Student was not found'], 404);
+            return jsonResponse(null, 'Student was not found', 404);
         }
-    
         if ($request->hasFile('image')) {
             if ($data->image_path) {
                 $filePath = public_path('images/' . $data->image_path);
@@ -95,37 +107,36 @@ class StudentController extends Controller
                     unlink($filePath);
                 }
             }
-    
+
             // Upload new image
             $newImageName = time() . '-' . $request->name . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $newImageName);
-    
+
             $data->image_path = $newImageName;
         }
-    
+
         // Update other fields
         $data->update([
             'name' => $request->name,
             'age' => $request->age,
             'gender' => $request->gender,
             'course' => $request->course,
-            // 'image_path' => $data->image_path 
+            'image_path' => $data->image_path ?? null
         ]);
-    
-        return response()->json(['message' => 'Data has been updated', 'data' => $data], 200);
+
+        return jsonResponse($data, 'Student has been updated successfully', 201);
     }
-    
+
     /**
      * Remove the specified resource from storage.
      */
     public function deleteStudent($student_id)
     {
         $data = Student::find($student_id);
-        if(!$data){
-            return jsonResponse(null,'Student was not found',404);
+        if (!$data) {
+            return jsonResponse(null, 'Student was not found', 404);
         }
         Student::destroy($student_id);
-        return jsonResponse(null,'Student has been deleted',200);
-
+        return jsonResponse($data, 'Student has been deleted', 200);
     }
 }
