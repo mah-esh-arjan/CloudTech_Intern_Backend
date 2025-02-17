@@ -95,11 +95,14 @@ class StudentController extends Controller
      */
     public function updateStudent(Request $request, $student_id)
     {
+        Log::info($request->all());
         $data = Student::find($student_id);
 
         if (!$data) {
             return jsonResponse(null, 'Student was not found', 404);
         }
+
+
         if ($request->hasFile('image')) {
             if ($data->image_path) {
                 $filePath = public_path('images/' . $data->image_path);
@@ -136,6 +139,14 @@ class StudentController extends Controller
         if (!$data) {
             return jsonResponse(null, 'Student was not found', 404);
         }
+
+        if ($data->image_path) {
+            $filePath = public_path('images/' . $data->image_path);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
         Student::destroy($student_id);
         return jsonResponse($data, 'Student has been deleted', 200);
     }

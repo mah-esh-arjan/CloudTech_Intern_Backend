@@ -21,7 +21,9 @@ Route::get('/get-movie/{id}', [DummyAPIController::class, 'getMovie']);
 
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->get('user', [AuthController::class, 'getUser']);
+Route::get('/users', [AuthController::class, 'getUser']);
+Route::delete('/users/{id}', [AuthController::class, 'deleteUser']);
+Route::get('/restore/{id}',  [AuthController::class, 'restore']);
 
 Route::post('/user-register', [RegisterAPIController::class, 'store']);
 
