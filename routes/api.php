@@ -29,9 +29,10 @@ Route::post('/user-register', [RegisterAPIController::class, 'store']);
 
 Route::post('/student-register', [StudentController::class, 'registerStudent']);
 Route::post('/student-login', [StudentController::class, 'loginStudent']);
-Route::middleware(['auth:sanctum','token'])->controller(StudentController::class)->group(function () {
+Route::middleware(['auth:sanctum', 'token'])->controller(StudentController::class)->group(function () {
     Route::get('/students-list', 'getStudents');
     Route::get('/students-show/{student_id}', 'showStudent');
     Route::put('/student-update/{student_id}', 'updateStudent');
     Route::delete('/student-delete/{student_id}', 'deleteStudent');
 });
+
