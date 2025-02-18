@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\BookController;
 use App\Http\Controllers\API\RegisterAPIController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DummyAPIController;
@@ -36,3 +37,8 @@ Route::middleware(['auth:sanctum', 'token'])->controller(StudentController::clas
     Route::delete('/student-delete/{student_id}', 'deleteStudent');
 });
 
+Route::get('books-list', [BookController::class, 'getBooks']);
+Route::post('book-create', [BookController::class, 'createBook']);
+Route::get('book-show/{id}', [BookController::class, 'showBook']);
+Route::post('book-update/{id}', [BookController::class, 'updateBook']);
+Route::delete('book-delete/{id}', [BookController::class, 'deleteBook']);

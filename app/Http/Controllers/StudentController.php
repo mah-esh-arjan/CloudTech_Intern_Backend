@@ -8,12 +8,12 @@ use PHPUnit\Framework\MockObject\Builder\Stub;
 use App\Http\Requests\RegisterStudentRequest;
 use App\Jobs\SendRegisterEmail;
 use App\Mail\RegisterSuccess;
-use App\Traits\Create;
+use App\Traits\GetAll;
 use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
-    use Create;
+    use GetAll;
 
     public function viewStudentForm()
     {
@@ -50,7 +50,7 @@ class StudentController extends Controller
     public function viewStudents()
     {
 
-        $students = $this->getAll(Student::class);
+        $students = $this->GetAll(Student::class);
         return view('/students.student_list', ['students' => $students]);
     }
 

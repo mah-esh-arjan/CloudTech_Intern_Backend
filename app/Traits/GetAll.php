@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait Create
+trait GetAll
 {
     public function getAll($model){
        return $model::all();
