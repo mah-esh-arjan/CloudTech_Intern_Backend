@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\DependencyController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\RegisterController;
@@ -68,7 +69,6 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register', 'clickSubmit');
 });
 
-
 Route::controller(StudentController::class)->group(function () {
     Route::get('/student-register', 'viewStudentForm');
     Route::post('/student-register', 'registerStudent')->name('registerStudent');
@@ -77,7 +77,6 @@ Route::controller(StudentController::class)->group(function () {
     Route::post('/update-student/{student_id}', 'updateStudent');
     Route::get('/delete-student/{student_id}', 'deleteStudent');
 });
-
 
 Route::get('/student/{student_id}/profile', function ($student_id) {
     $student = Student::findOrFail($student_id);
@@ -115,3 +114,5 @@ Route::get('/role-login', [RoleLoginController::class, 'showRoleLoginForm']);
 Route::post('/role-login', [RoleLoginController::class, 'roleLogin']);
 
 Route::get('/panel', [RoleLoginController::class, 'viewPanel'])->middleware('auth');
+
+Route::get('/logger', [DependencyController::class, 'logging']);
