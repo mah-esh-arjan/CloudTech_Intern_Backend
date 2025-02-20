@@ -30,11 +30,18 @@ class BookController extends Controller
     public function createBook(Request $request)
     {
 
+        if ($request->image_path) {
+            $newImageName = time() . '-' . $request->title . '.' . $request->image_path->extension();
+            $request->image_path->move(public_path('BookImages'), $newImageName);
+        }
+
         $data = Book::create([
             'title' => $request->title,
             'desc' => $request->desc,
-            'image_path' => $request->image_path
+            'image_path' => $newImageName ?? null
         ]);
+
+
 
         return jsonResponse($data, 'Book has been created sucesfully', 201);
     }
@@ -52,10 +59,25 @@ class BookController extends Controller
     {
         $data = $this->GetOne(Book::class, $id);
 
+        if ($request->hasFile('image_path')) {
+            if ($data->image_path) {
+                $filePath = public_path('BookImages/' . $data->image_path);
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+
+            // Upload new image
+            $newImageName = time() . '-' . $request->title . '.' . $request->image_path->extension();
+            $request->image_path->move(public_path('BookImages'), $newImageName);
+
+            $data->image_path = $newImageName;
+        }
+
         $data->update([
             'title' => $request->title,
             'desc' => $request->desc,
-            'image_path' => $request->image_path
+            'image_path' => $data->image_path ?? null
         ]);
 
         return jsonResponse($data, 'Data was updated', 201);
