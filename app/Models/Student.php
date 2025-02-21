@@ -26,6 +26,10 @@ class Student extends Model
         'image_path'
     ];
 
+    public function books(){
+        return $this->belongsToMany(Book::class,'student_book','student_id','book_id');
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class, 'student_id');

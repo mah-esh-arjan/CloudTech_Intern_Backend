@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\BookController;
 use App\Http\Controllers\API\RegisterAPIController;
 use App\Http\Controllers\AuthController;
@@ -30,6 +31,10 @@ Route::post('/user-register', [RegisterAPIController::class, 'store']);
 
 Route::post('/student-register', [StudentController::class, 'registerStudent']);
 Route::post('/student-login', [StudentController::class, 'loginStudent']);
+
+Route::post('/student-book/{student_id}', [StudentController::class, 'rentBook']);
+Route::get('/student-book/{student_id}', [StudentController::class, 'getRentBooks']);
+
 Route::middleware('auth:sanctum')->controller(StudentController::class)->group(function () {
     Route::get('/students-list', 'getStudents');
     Route::get('/students-show/{student_id}', 'showStudent');
@@ -42,3 +47,6 @@ Route::post('book-create', [BookController::class, 'createBook']);
 Route::get('book-show/{id}', [BookController::class, 'showBook']);
 Route::put('book-update/{id}', [BookController::class, 'updateBook']);
 Route::delete('book-delete/{id}', [BookController::class, 'deleteBook']);
+
+Route::post('/admin-register',[AdminController::class,'registerAdmin']);
+Route::post('/admin-login',[AdminController::class,'adminLogin']);

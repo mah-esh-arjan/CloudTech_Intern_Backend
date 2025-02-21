@@ -7,9 +7,13 @@ use App\Http\Requests\RegisterStudentRequest;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Traits\GetOne;
+use PHPUnit\Framework\MockObject\Builder\Stub;
 
 class StudentController extends Controller
 {
+    use GetOne;
+
     /**
      * Display a listing of the resource.
      */
@@ -149,5 +153,34 @@ class StudentController extends Controller
 
         Student::destroy($student_id);
         return jsonResponse($data, 'Student has been deleted', 200);
+    }
+
+    public function rentBook(Request $request, $student_id)
+    {
+
+        $data = $this->GetOne(Student::class, $student_id);
+
+        $data->books()->sync($request->arrayId);
+
+        return jsonResponse($data, 'Books have been rented sucessfully', 201);
+    }
+
+    public function getRentBooks($student_id)
+    {
+        // below is a lazy loading
+
+        // $student = Student::findOrFail($student_id);
+        // return jsonResponse($student->books,'Sucess',200);
+
+        // bellow is eager loading
+        // $student = Student::with('books')->findOrFail($student_id);
+
+        $student = Student::findOrFail($student_id);
+        return response()->json([
+            'student' => $student,
+            'books' => $student->books,
+            'Count' => count($student->books)
+
+        ]);
     }
 }
