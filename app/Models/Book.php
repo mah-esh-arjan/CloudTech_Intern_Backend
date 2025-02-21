@@ -10,4 +10,9 @@ class Book extends Model
     protected $primaryKey = "id";
 
     protected $fillable = ['title', 'desc', 'image_path'];
+
+    public function students(){
+        return $this->belongsToMany(Student::class,'student_book','book_id','student_id');
+    }
+
 }
