@@ -31,7 +31,7 @@ class StudentController extends Controller
             return jsonResponse(null, 'Password does not match', 401);
         }
 
-        $token = $student->createToken('Student')->plainTextToken;
+        $token = $student->createToken('Student', ['student-access'])->plainTextToken;
 
         return jsonResponse($token, 'Token has been created successfully', 201);
     }
@@ -170,7 +170,7 @@ class StudentController extends Controller
         // below is a lazy loading
 
         // $student = Student::findOrFail($student_id);
-        // return jsonResponse($student->books,'Sucess',200);
+        // return jsonResponse($student,'Sucess',200);
 
         // bellow is eager loading
         // $student = Student::with('books')->findOrFail($student_id);
@@ -178,7 +178,6 @@ class StudentController extends Controller
         $student = Student::findOrFail($student_id);
         return response()->json([
             'student' => $student,
-            'books' => $student->books,
             'Count' => count($student->books)
 
         ]);
