@@ -29,24 +29,32 @@ Route::get('/restore/{id}',  [AuthController::class, 'restore']);
 
 Route::post('/user-register', [RegisterAPIController::class, 'store']);
 
+
+// student related routes
 Route::post('/student-register', [StudentController::class, 'registerStudent']);
 Route::post('/student-login', [StudentController::class, 'loginStudent']);
 
-Route::post('/student-book/{student_id}', [StudentController::class, 'rentBook']);
-Route::get('/student-book/{student_id}', [StudentController::class, 'getRentBooks']);
+// proctected route accessible by admin token and student token
+Route::middleware(['auth:sanctum', 'checkAbilities:student-access,admin-access'])->group(function () {
 
-Route::middleware(['auth:sanctum', 'checkAbilities:admin-access'])->controller(StudentController::class)->group(function () {
-    Route::get('/students-list', 'getStudents');
-    Route::get('/students-show/{student_id}', 'showStudent');
-    Route::put('/student-update/{student_id}', 'updateStudent');
-    Route::delete('/student-delete/{student_id}', 'deleteStudent');
+    Route::post('/student-book/{student_id}', [StudentController::class, 'rentBook']);
+    Route::get('/student-book/{student_id}', [StudentController::class, 'getRentBooks']);
+    Route::get('books-list', [BookController::class, 'getBooks']);
 });
 
-Route::get('books-list', [BookController::class, 'getBooks']);
-Route::post('book-create', [BookController::class, 'createBook']);
-Route::get('book-show/{id}', [BookController::class, 'showBook']);
-Route::put('book-update/{id}', [BookController::class, 'updateBook']);
-Route::delete('book-delete/{id}',[BookController::class, 'deleteBook']);
+// admin related routes
 
 Route::post('/admin-register', [AdminController::class, 'registerAdmin']);
 Route::post('/admin-login', [AdminController::class, 'adminLogin']);
+
+// protected only by admin token
+Route::middleware(['auth:sanctum', 'ability:admin-access'])->group(function () {
+    Route::get('/students-list', [AdminController::class, 'getStudents']);
+    Route::get('/students-show/{student_id}', [AdminController::class, 'showStudent']);
+    Route::put('/student-update/{student_id}', [AdminController::class, 'updateStudent']);
+    Route::delete('/student-delete/{student_id}', [AdminController::class, 'deleteStudent']);
+    Route::post('book-create', [BookController::class, 'createBook']);
+    Route::get('book-show/{id}', [BookController::class, 'showBook']);
+    Route::put('book-update/{id}', [BookController::class, 'updateBook']);
+    Route::delete('book-delete/{id}', [BookController::class, 'deleteBook']);
+});

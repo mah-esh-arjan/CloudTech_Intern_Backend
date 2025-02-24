@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Traits\GetOne;
@@ -58,27 +59,43 @@ class AdminController extends Controller
         return jsonResponse($token, 'Token has been created successfully', 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+    public function getStudents()
     {
-        //
+
+        $data = Student::all();
+
+        if ($data->isEmpty()) {
+            return jsonResponse(null, 'No students found in Database ', 404);
+        }
+
+        return jsonResponse($data, 'Students sucessfully retrieved', 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function showStudent(Request $request, $student_id)
     {
-        //
-    }
+        $data = Student::find($student_id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+        if (!$data) {
+            return jsonResponse(null, 'Student was not found', 404);
+        }
+        return jsonResponse($data, 'Student was found', 200);
+    }
+    public function deleteStudent($student_id)
     {
-        //
+        $data = Student::find($student_id);
+        if (!$data) {
+            return jsonResponse(null, 'Student was not found', 404);
+        }
+
+        if ($data->image_path) {
+            $filePath = public_path('images/' . $data->image_path);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
+        Student::destroy($student_id);
+        return jsonResponse($data, 'Student has been deleted', 200);
     }
 }
