@@ -35,7 +35,7 @@ Route::post('/student-login', [StudentController::class, 'loginStudent']);
 Route::post('/student-book/{student_id}', [StudentController::class, 'rentBook']);
 Route::get('/student-book/{student_id}', [StudentController::class, 'getRentBooks']);
 
-Route::middleware('auth:sanctum')->controller(StudentController::class)->group(function () {
+Route::middleware(['auth:sanctum', 'checkAbilities:admin-access'])->controller(StudentController::class)->group(function () {
     Route::get('/students-list', 'getStudents');
     Route::get('/students-show/{student_id}', 'showStudent');
     Route::put('/student-update/{student_id}', 'updateStudent');
@@ -46,7 +46,7 @@ Route::get('books-list', [BookController::class, 'getBooks']);
 Route::post('book-create', [BookController::class, 'createBook']);
 Route::get('book-show/{id}', [BookController::class, 'showBook']);
 Route::put('book-update/{id}', [BookController::class, 'updateBook']);
-Route::delete('book-delete/{id}', [BookController::class, 'deleteBook']);
+Route::delete('book-delete/{id}',[BookController::class, 'deleteBook']);
 
-Route::post('/admin-register',[AdminController::class,'registerAdmin']);
-Route::post('/admin-login',[AdminController::class,'adminLogin']);
+Route::post('/admin-register', [AdminController::class, 'registerAdmin']);
+Route::post('/admin-login', [AdminController::class, 'adminLogin']);

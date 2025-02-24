@@ -46,14 +46,14 @@ class AdminController extends Controller
         $admin = Admin::where('email', $request->email)->first();
 
         if (!$admin) {
-            return jsonResponse(null, 'No admin Was Found', 404);
+            return jsonResponse(null, 'No admin Was Found', 400);
         }
 
         if (!Hash::check($request->password, $admin->password)) {
             return jsonResponse(null, 'Password is not correct', 401);
         }
 
-        $token = $admin->createToken('Admin')->plainTextToken;
+        $token = $admin->createToken('Admin', ['admin-access', 'student-access'])->plainTextToken;
 
         return jsonResponse($token, 'Token has been created successfully', 201);
     }
