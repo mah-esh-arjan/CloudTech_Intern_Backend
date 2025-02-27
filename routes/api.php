@@ -37,9 +37,11 @@ Route::post('/student-login', [StudentController::class, 'loginStudent']);
 // proctected route accessible by admin token and student token
 Route::middleware(['auth:sanctum', 'checkAbilities:student-access,admin-access'])->group(function () {
 
-    Route::post('/student-book/{student_id}', [StudentController::class, 'rentBook']);
+    Route::get('/student-book-list', [StudentController::class, 'getStudentBooks']);
     Route::get('/student-book/{student_id}', [StudentController::class, 'getRentBooks']);
-    Route::get('books-list', [BookController::class, 'getBooks']);
+    Route::post('/student-book/{student_id}', [StudentController::class, 'rentBook']);
+    Route::get('/students-show/{student_id}', [AdminController::class, 'showStudent']);
+    Route::put('/student-update/{student_id}', [AdminController::class, 'updateStudent']);
 });
 
 // admin related routes
@@ -50,11 +52,10 @@ Route::post('/admin-login', [AdminController::class, 'adminLogin']);
 // protected only by admin token
 Route::middleware(['auth:sanctum', 'ability:admin-access'])->group(function () {
     Route::get('/students-list', [AdminController::class, 'getStudents']);
-    Route::get('/students-show/{student_id}', [AdminController::class, 'showStudent']);
-    Route::put('/student-update/{student_id}', [AdminController::class, 'updateStudent']);
     Route::delete('/student-delete/{student_id}', [AdminController::class, 'deleteStudent']);
-    Route::post('book-create', [BookController::class, 'createBook']);
-    Route::get('book-show/{id}', [BookController::class, 'showBook']);
-    Route::put('book-update/{id}', [BookController::class, 'updateBook']);
-    Route::delete('book-delete/{id}', [BookController::class, 'deleteBook']);
+    Route::get('/books-list', [BookController::class, 'getBooks']);
+    Route::post('/book-create', [BookController::class, 'createBook']);
+    Route::get('/book-show/{id}', [BookController::class, 'showBook']);
+    Route::put('/book-update/{id}', [BookController::class, 'updateBook']);
+    Route::delete('/book-delete/{id}', [BookController::class, 'deleteBook']);
 });

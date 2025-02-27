@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterStudentRequest;
+use App\Models\Book;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -33,7 +34,7 @@ class StudentController extends Controller
 
         $token = $student->createToken('Student', ['student-access'])->plainTextToken;
 
-        return jsonResponse($token, 'Token has been created successfully', 201);
+        return jsonResponse(['token' => $token, 'Student' => $student,'count' => count($student->books) ,'role' => 'student'], 'Token has been created successfully', 201);
     }
 
 
@@ -73,7 +74,7 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      */
-  
+
 
     /**
      * Update the specified resource in storage.
@@ -82,16 +83,27 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
- 
+
 
     public function rentBook(Request $request, $student_id)
     {
 
-        $data = $this->GetOne(Student::class, $student_id);
+        Log::info($request);
+        $student = Student::with('books')->where('student_id', $student_id)->first();
 
-        $data->books()->sync($request->arrayId);
+        $student->books()->sync($request->arrayId);
 
+        $data = [
+            'student' => $student,
+            'count' => count($student->books)
+        ];
         return jsonResponse($data, 'Books have been rented sucessfully', 201);
+    }
+    public function getStudentBooks()
+    {
+        $data = Book::all();
+
+        return jsonResponse($data, 'list of all the books', 200);
     }
 
     public function getRentBooks($student_id)
@@ -104,10 +116,11 @@ class StudentController extends Controller
         // bellow is eager loading
         // $student = Student::with('books')->findOrFail($student_id);
 
-        $student = Student::findOrFail($student_id);
+        $student = Student::with('books')->where('student_id', $student_id)->first();
         return response()->json([
             'student' => $student,
-            'Count' => count($student->books)
+
+            'count' => count($student->books)
 
         ]);
     }

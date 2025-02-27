@@ -17,6 +17,8 @@ class Student extends Model
     protected $table = "student";
     protected $primaryKey = "student_id";
 
+    protected $hidden = ['password'];
+    
     protected $fillable = [
         'name',
         'password',
