@@ -56,7 +56,7 @@ class AdminController extends Controller
 
         $token = $admin->createToken('Admin', ['admin-access', 'student-access'])->plainTextToken;
 
-        return jsonResponse($token, 'Token has been created successfully', 201);
+        return jsonResponse(['token'=>$token, 'role' => 'admin'], 'Token has been created successfully', 201);
     }
 
 
@@ -81,6 +81,46 @@ class AdminController extends Controller
         }
         return jsonResponse($data, 'Student was found', 200);
     }
+
+
+    public function updateStudent(Request $request, $student_id)
+    {
+        Log::info($request->all());
+        $data = Student::find($student_id);
+
+        if (!$data) {
+            return jsonResponse(null, 'Student was not found', 404);
+        }
+
+
+        if ($request->hasFile('image')) {
+            if ($data->image_path) {
+                $filePath = public_path('images/' . $data->image_path);
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+
+            // Upload new image
+            $newImageName = time() . '-' . $request->name . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $newImageName);
+
+            $data->image_path = $newImageName;
+        }
+
+        // Update other fields
+        $data->update([
+            'name' => $request->name,
+            'age' => $request->age,
+            'gender' => $request->gender,
+            'course' => $request->course,
+            'image_path' => $data->image_path ?? null
+        ]);
+
+        return jsonResponse($data, 'Student has been updated successfully', 201);
+    }
+
+
     public function deleteStudent($student_id)
     {
         $data = Student::find($student_id);

@@ -2,7 +2,7 @@
 
 if (!function_exists('jsonResponse')) {
 
-    function jsonResponse($data = null, $message = '', $status = 200)
+    function jsonResponse($data = null, $message = '', $status = 2000)
     {
 
         return response()->json([
