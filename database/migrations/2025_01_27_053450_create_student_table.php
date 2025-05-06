@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('course',["Commerce","Science"]);
             $table->boolean('status')->default(0); //passed or fail
             $table->timestamps();
+            
         });
     }
 

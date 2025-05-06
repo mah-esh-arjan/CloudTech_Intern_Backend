@@ -10,6 +10,7 @@ use App\Jobs\SendRegisterEmail;
 use App\Mail\RegisterSuccess;
 use App\Traits\GetAll;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
@@ -19,31 +20,36 @@ class StudentController extends Controller
     {
         return view('/students.student_register');
     }
-
     public function registerStudent(RegisterStudentRequest $request)
     {
+        // dd($request->file('image'));
 
         $validatedData = $request->validated();
-
-        // dd($validatedData);
-
-        if ($request->image) {
-            $newImageName = time() . '-' . $request->name . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $newImageName);
+    
+        $newImageName = null;
+    
+        // Make sure you're using `hasFile()` AND the file is valid
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+    
+            Log::info('image has file');
+    
+            $image = $request->file('image');
+            $newImageName = time() . '-' . $validatedData['name'] . '.' . $image->getClientOriginalExtension();
+    
+            // ✅ move it BEFORE anything else happens
+            $image->move(public_path('images'), $newImageName);
         }
-
+    
+        // Then safely create the record
         $student = Student::create([
             'name' => $validatedData['name'],
             'password' => $validatedData['password'],
             'age' => $validatedData['age'],
             'gender' =>  $validatedData['gender'],
             'course' =>  $validatedData['course'],
-            'image_path' => $newImageName ?? null
-
+            'image_path' => $newImageName
         ]);
-
-        SendRegisterEmail::dispatch($student);
-
+    
         return redirect('student-list');
     }
 

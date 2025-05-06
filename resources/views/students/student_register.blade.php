@@ -108,7 +108,7 @@
 
                                 </div>
                             </div>
-                            @error('image_path')
+                            @error('image')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
 
