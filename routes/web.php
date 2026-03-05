@@ -12,6 +12,7 @@ use App\Models\Student;
 use App\Models\Movie;
 use App\Models\Image;
 use Illuminate\Support\Facades\Route;
+use App\Events\TestMessage;
 
 Route::get('/', function () {
 
@@ -119,3 +120,20 @@ Route::post('/role-login', [RoleLoginController::class, 'roleLogin']);
 Route::get('/panel', [RoleLoginController::class, 'viewPanel'])->middleware('auth');
 
 Route::get('/logger', [DependencyController::class, 'logging']);
+
+Route::get('/send', function () {
+    \Log::info('Sending TestMessage event');
+    event(new TestMessage("Hello from Laravel WebSocket at " . now()));
+    \Log::info('Event dispatched');
+    return "Event sent at " . now();
+});
+
+Route::get('/send-direct', function () {
+    \Log::info('Sending direct broadcast');
+    broadcast(new TestMessage("Direct broadcast at " . now()));
+    \Log::info('Direct broadcast sent');
+    return "Direct broadcast sent at " . now();
+});
+
+Route::view('/ws', 'ws');
+Route::view('/websocket-test', 'websocket-test');
