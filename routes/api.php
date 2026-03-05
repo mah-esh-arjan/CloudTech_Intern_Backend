@@ -9,11 +9,37 @@ use App\Http\Controllers\API\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Events\TestMessage;
 
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+// WebSocket test endpoints for React frontend
+Route::post('/broadcast-test', function (Request $request) {
+    $message = $request->input('message', 'Test message from React at ' . now());
+    
+    broadcast(new TestMessage($message));
+    
+    return response()->json([
+        'success' => true,
+        'message' => 'Event broadcasted',
+        'data' => ['message' => $message],
+        'timestamp' => now()
+    ]);
+});
+
+Route::get('/websocket-config', function () {
+    return response()->json([
+        'broadcaster' => 'reverb',
+        'key' => env('REVERB_APP_KEY', 'local'),
+        'wsHost' => env('REVERB_HOST', '127.0.0.1'),
+        'wsPort' => env('REVERB_PORT', 8080),
+        'forceTLS' => false,
+        'disableStats' => true,
+    ]);
+});
 
 Route::get("data", [DummyAPIController::class, 'getData']);
 

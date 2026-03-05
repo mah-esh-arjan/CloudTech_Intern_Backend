@@ -136,3 +136,4 @@ Route::get('/send-direct', function () {
 });
 
 Route::view('/ws', 'ws');
+Route::view('/websocket-test', 'websocket-test');
